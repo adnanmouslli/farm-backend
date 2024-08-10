@@ -7,7 +7,6 @@ $username =  filterRequest('username') ;
 $password =filterRequest('password') ;
 $email = filterRequest('email') ;  
 $phone =  filterRequest('phone') ;  
-$address = filterRequest('address') ; 
 
 
 
@@ -23,12 +22,12 @@ if($count > 0)
  }
  else{
    $data = array(
-    "user_id" => null,
+    "id" => null,
     "username" => $username,
     "email" => $email,
     "phone" => $phone ,
-    "address" => $address ,
     "password" => $password ,
+    
      );
    insertData("user" , $data) ; 
  }
