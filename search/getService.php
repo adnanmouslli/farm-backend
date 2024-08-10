@@ -7,7 +7,7 @@ $search = filterRequest("search") ;
 
 
 if (is_numeric($search)) {
-    $stmt = $con->prepare("SELECT * FROM `farms` WHERE price LIKE '$search%' ") ;
+    $stmt = $con->prepare("SELECT * FROM `farms` WHERE price LIKE '$search%' and status = 1") ;
     $stmt->execute();
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count = $stmt->rowCount();
@@ -17,11 +17,10 @@ if (is_numeric($search)) {
     } else {
         echo json_encode(array("status" => "failure"));
     }
-
 } 
 
 else if (ctype_alpha($search)) {
-    $stmt = $con->prepare("SELECT * FROM `farms` WHERE name COLLATE utf8mb4_general_ci LIKE '$search%' ") ;
+    $stmt = $con->prepare("SELECT * FROM `farms` WHERE  LIKE '$search%' and status = 1") ;
     $stmt->execute();
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count = $stmt->rowCount();

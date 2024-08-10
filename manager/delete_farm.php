@@ -3,12 +3,9 @@
 
 include "../connect.php";
 
-$id_farm = filterRequest('id_farm');
+$id_fram = $_POST['id_farm'];
 
-
-
-
-$stmt = $con->prepare("UPDATE `farms` SET `status`= 1 WHERE id = '$id_farm' ");
+$stmt = $con->prepare("DELETE FROM `farms` WHERE id = '$id_fram' ");
 $stmt->execute();
 $count  = $stmt->rowCount();
 
@@ -18,3 +15,4 @@ if ($count > 0) {
 } else {
     echo json_encode(array("status" => "failure"));
 }
+
