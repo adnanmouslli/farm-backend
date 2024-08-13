@@ -3,9 +3,9 @@
 
 include "../connect.php";
 
-$idSer = filterRequest('idSer');
+$id_farm = filterRequest('id_farm');
 
-$stmt = $con->prepare("SELECT * FROM `booking` WHERE id_ser = $idSer ;");
+$stmt = $con->prepare("SELECT * FROM `booking` WHERE id_farm = '$id_farm' ;");
 $stmt->execute();
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $count  = $stmt->rowCount();
@@ -16,8 +16,4 @@ if ($count > 0) {
 } else {
     echo json_encode(array("status" => "failure"));
 }
-
-?>
-
-
 

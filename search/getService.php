@@ -1,14 +1,12 @@
 <?php
 
-
 include "../connect.php";
 
-$search = filterRequest("search") ;
-
+$search = filterRequest("search");
 
 if (is_numeric($search)) {
-    $stmt = $con->prepare("SELECT * FROM `farms` WHERE price LIKE '$search%' and status = 1") ;
-    $stmt->execute();
+    $stmt = $con->prepare("SELECT * FROM `farms` WHERE price LIKE ? AND status = 1");
+    $stmt->execute(array($search . '%'));
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count = $stmt->rowCount();
 
@@ -17,11 +15,10 @@ if (is_numeric($search)) {
     } else {
         echo json_encode(array("status" => "failure"));
     }
-} 
+} elseif (ctype_alpha($search)) {
+    $stmt = $con->prepare("SELECT * FROM `farms` WHERE name LIKE ? AND status = 1");
 
-else if (ctype_alpha($search)) {
-    $stmt = $con->prepare("SELECT * FROM `farms` WHERE  LIKE '$search%' and status = 1") ;
-    $stmt->execute();
+    $stmt->execute(array($search . '%'));
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count = $stmt->rowCount();
 
@@ -30,15 +27,6 @@ else if (ctype_alpha($search)) {
     } else {
         echo json_encode(array("status" => "failure"));
     }
-}
-else {
-
+} else {
     echo json_encode(array("status" => "failure"));
-
 }
-
-
-
-
-
-
