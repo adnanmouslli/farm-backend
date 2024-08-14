@@ -3,13 +3,13 @@
 
 include "../connect.php";
 
-$id_farm = filterRequest('id_farm');
-$id_user = filterRequest('id_user');
-$booking = filterRequest('booking');
+$id_farm = $_POST['id_farm'];
+$id_user = $_POST['id_user'];
+$booking = $_POST['booking'];
 
 
-    $stmt = $con->prepare("INSERT INTO `booking`(`id`, `id_user`, `id_farm`, `date`, `status`) 
-    VALUES (null , '$id_user' , '$id_farm' , '' )");
+    $stmt = $con->prepare("INSERT INTO `booking`(`id`, `id_user`, `id_farm`, `date`) 
+    VALUES (null , '$id_user' , '$id_farm' , '$booking'  )");
 
 $stmt->execute();
 
