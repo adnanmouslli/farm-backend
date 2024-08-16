@@ -45,8 +45,7 @@ $stmt = $con->prepare(
     GROUP by f.id 
     ORDER BY SUM(e.evaluation) / COUNT(e.evaluation) DESC 
     LIMIT 1;
-    ");
-    
+");
     $stmt->execute();
     $data5 = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count5  = $stmt->rowCount();
@@ -56,5 +55,3 @@ if ($count1 > 0) {
 } else {
     echo json_encode(array("status" => "failure"));
 }
-
-
