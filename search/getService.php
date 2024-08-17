@@ -16,9 +16,9 @@ if (is_numeric($search)) {
         echo json_encode(array("status" => "failure"));
     }
 } elseif (ctype_alpha($search)) {
-    $stmt = $con->prepare("SELECT * FROM `farms` WHERE name LIKE ? AND status = 1");
+    $stmt = $con->prepare("SELECT * FROM `farms` WHERE (name LIKE ? OR address LIKE ?) AND status = 1");
 
-    $stmt->execute(array($search . '%'));
+    $stmt->execute(array($search . '%' ,$search . '%'));
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $count = $stmt->rowCount();
 
