@@ -145,7 +145,7 @@ function imageUpload( $imageRequest , $imageUrl)
         }
         if (empty($msgError)) {
             move_uploaded_file($imagetmp,  $imageUrl . $imagename);
-            return "192.168.184.51/mall/upload/" . $imagename ;
+            return  $imagename ;
         } else {
             return "fail";
         }
@@ -199,68 +199,3 @@ function result($count)
     }
 }
 
-function sendEmail($to, $title, $body)
-{
-    $header = "From: support@waelabohamza.com " . "\n" . "CC: waeleagle1243@gmail.com";
-    mail($to, $title, $body, $header);
-}
-
-
-
-
-
-function sendGCM($title, $message, $topic, $pageid, $pagename)
-{
-
-
-    $url = 'https://fcm.googleapis.com/fcm/send';
-
-    $fields = array(
-        "to" => '/topics/' . $topic,
-        'priority' => 'high',
-        'content_available' => true,
-
-        'notification' => array(
-            "body" =>  $message,
-            "title" =>  $title,
-            "click_action" => "FLUTTER_NOTIFICATION_CLICK",
-            "sound" => "default"
-
-        ),
-        'data' => array(
-            "pageid" => $pageid,
-            "pagename" => $pagename
-        )
-
-    );
-
-
-    $fields = json_encode($fields);
-    $headers = array(
-        'Authorization: key=' . "",
-        'Content-Type: application/json'
-    );
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-
-    $result = curl_exec($ch);
-    return $result;
-    curl_close($ch);
-}
-
-
-
-function insertNotify($title, $body, $userid, $topic, $pageid, $pagename)
-{
-    global $con;
-    $stmt  = $con->prepare("INSERT INTO `notification`(  `notification_title`, `notification_body`, `notification_userid`) VALUES (? , ? , ?)");
-    $stmt->execute(array($title, $body, $userid));
-    sendGCM($title,  $body, $topic, $pageid, $pagename);
-    $count = $stmt->rowCount();
-    return $count;
-}
