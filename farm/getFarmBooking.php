@@ -1,0 +1,18 @@
+<?php
+
+include "../connect.php";
+
+$id_farm = filterRequest('id_farm');
+
+$stmt = $con->prepare("SELECT b.* , u.username , u.phone FROM `booking` b JOIN `user` u ON b.id_user = u.id where b.id_farm = '$id_farm';");
+$stmt->execute();
+$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$count  = $stmt->rowCount();
+
+
+if ($count > 0) {
+    echo json_encode(array("status" => "success", "data" => $data));
+} else {
+    echo json_encode(array("status" => "failure"));
+}
+
