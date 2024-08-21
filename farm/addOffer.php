@@ -19,4 +19,3 @@ if ($count > 0) {
 } else {
     echo json_encode(array("status" => "failure"));
 }
-
